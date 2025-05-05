@@ -13,6 +13,16 @@ def shuffle(s):
     """
     assert len(s) % 2 == 0, 'len(seq) must be even'
     "*** YOUR CODE HERE ***"
+    new_list = []
+    i = 0
+    while i < len(s)/2:
+        new_list.append(s[i])
+        new_list.append(s[int(len(s)/2+i)])
+        i += 1
+    return new_list
+
+
+    
 
 
 def deep_map(f, s):
@@ -38,6 +48,13 @@ def deep_map(f, s):
     True
     """
     "*** YOUR CODE HERE ***"
+    for i in range(len(s)):
+        if type(s[i]) is not list:
+            s[i] = f(s[i])
+        else:
+            deep_map(f, s[i])
+        
+    
 
 
 HW_SOURCE_FILE=__file__
@@ -47,11 +64,15 @@ def planet(mass):
     """Construct a planet of some mass."""
     assert mass > 0
     "*** YOUR CODE HERE ***"
+    planet = ["planet", mass]
+    return planet
+
 
 def mass(p):
     """Select the mass of a planet."""
     assert is_planet(p), 'must call mass on a planet'
     "*** YOUR CODE HERE ***"
+    return p[1]
 
 def is_planet(p):
     """Whether p is a planet."""
@@ -104,6 +125,13 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_mobile(m):
+        if total_mass(end(left(m))) * length(left(m)) == total_mass(end(right(m))) * length(right(m)):
+            return balanced(end(left(m))) and balanced(end(right(m)))
+        else: 
+            return False 
+    else:
+        return True
 
 
 def berry_finder(t):
@@ -124,6 +152,16 @@ def berry_finder(t):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_tree(t):
+        if label(t) == "berry":
+            return True
+        else:
+            for branch in branches(t):
+                if berry_finder(branch):
+                    return True
+
+        return False
+        
 
 
 HW_SOURCE_FILE=__file__
@@ -139,7 +177,10 @@ def max_path_sum(t):
     17
     """
     "*** YOUR CODE HERE ***"
-
+    if is_leaf(t):
+        return label(t)
+    else:
+       return label(t) + max(max_path_sum(branch) for branch in branches(t))
 
 def mobile(left, right):
     """Construct a mobile from a left arm and a right arm."""
